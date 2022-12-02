@@ -1,7 +1,7 @@
 ---
 title: "Individual Portion: Streaming Data"
 subtitle: "STT2860 F22 Project 03"
-author: "PUT YOUR NAME HERE"
+author: "Kate Metzger"
 date: "`r format(Sys.time(), '%A, %B %d, %Y @ %I:%M %p')`"
 output: 
   html_document: 
@@ -24,7 +24,12 @@ knitr::opts_chunk$set(
 ### Packages Used
 
 ```{r loadpackages}
-
+library(tidyverse)
+library(knitr)
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(waffle)
 ```
 
 ### Datasets Used
@@ -36,13 +41,17 @@ The datasets were downloaded from [Disney+ Movies and TV Shows | Kaggle](https:/
 #### Disney+ Dataset
 
 ```{r loaddisneydata}
- 
+raw <- read_csv("data/streamingcontent_raw.csv")
+glimpse(raw)
+disney <- read_rds("data/disneypluscontent.rds")
+glimpse(disney)
 ```
 
 #### Streaming Dataset
 
 ```{r loadstreamingdata}
-
+streaming <- read_rds("data/streamingcontent.rds")
+glimpse(streaming)
 ```
 
 <hr>
@@ -56,7 +65,8 @@ The datasets were downloaded from [Disney+ Movies and TV Shows | Kaggle](https:/
 Use `select()` to delete the variables `director`, `cast`, `country`, `listed in`, and `description` from the dataset.
 
 ```{r disneyedits}
-
+disneyedits <- disney %>%
+  select(director, cast, country, listed_in, description)
 ```
 
 #### Streaming Dataset
@@ -69,7 +79,12 @@ I used a function called `pivot_longer()` on the downloaded data to change the s
 * Use `mutate()` to convert the shows' IMDb and Rotten Tomatoes ratings into numerical variables instead of categorical.
 
 ```{r streamingedits}
-
+streamingedits <- streaming %>%
+  filter(YesNo == 1)
+streamingedits <- separate(streamingedits, col = IMDb, into = "IMDb", sep = "/")
+streamingedits <- separate(streamingedits, col = RottenTomatoes, into = "RottenTomatoes", sep = "/")
+streamingedits <- streamingedits %>%
+  mutate(IMDb = as.numeric(IMDb), RottenTomatoes = as.numeric(RottenTomatoes))
 ```
 
 ### Visualization 1: Release Year
@@ -79,13 +94,23 @@ I used a function called `pivot_longer()` on the downloaded data to change the s
 A frequency polygon (`geom_freqpoly()`) is an alternative to a histogram. Rather than displaying bars, it connects the midpoints of a histogram's bars with line segments. Create a frequency polygon for the year in which Disney+ content was released. Add an appropriate title and axis labels. Use other formatting as you choose to enhance effectiveness/appearance.
 
 ```{r freqpolyplot}
-
+ggplot(disney, aes(x = release_year)) +
+  geom_freqpoly() +
+  labs(title = "Release Year Freq", 
+       x = "Release Year", 
+       y = "Frequency") +
+  theme_bw()
 ```
 
 Create a violin plot of `release_year` (x-axis) grouped by `type` of program (y-axis) for content on Disney+. Fill with a color of your choice. Add a boxplot inside the violin plot, as you did in one of the DataCamp exercises. Re-scale the x-axis so that tick marks appear at whole-decade intervals (e.g., 1980, 1990, 2000). Add an appropriate title and axis labels. Use other formatting as you choose to enhance effectiveness/appearance.
 
 ```{r violinplot}
-
+ggplot(disney, aes(x = release_year, y = type)) + 
+  geom_violin(fill = "#4169e1") + 
+  geom_boxplot(width = 0.1, fill = "#FF69B4") +
+  scale_x_continuous(breaks = seq(1920, 2026, 10)) + 
+  labs(title = "Release Year by Type", x = "Release Year", y = "Density") + 
+  theme_bw()
 ```
 
 ### Visualization 2: Program Type
@@ -101,7 +126,12 @@ Create a waffle plot (which you learned in DataCamp: [Visualization Best Practic
 Hint: Use `round(100 * prop.table(table(DATASETNAME$VARIABLENAME)))` to create the "case_counts" data for the waffle plot. Swap out the capital letter placeholders in the instructions for the correct dataset name and variable name.
 
 ```{r waffleplot}
-
+# Create an array of rounded percentages for diseases.
+case_counts <- round(100 * prop.table(table(disney$type)))
+# Pass case_counts vector to the waffle function to plot
+waffle(case_counts, colors = c("#4169e1", "#FF69B4")) + 
+  labs(title = "Streaming Content Display", 
+       x = "1 Square is approx 100 programs") 
 ```
 
 ### Visualization 3: Choose a Plot!
@@ -111,7 +141,13 @@ Hint: Use `round(100 * prop.table(table(DATASETNAME$VARIABLENAME)))` to create t
 Create one other plot of your choice from the Disney+ Dataset to explore a question of interest. You are welcome to perform additional manipulations on the data, if needed. Add an appropriate title and axis labels, as well as any other necessary formatting.
 
 ```{r disneychoice}
-
+ggplot(disney, aes(x = rating, fill = rating)) + 
+  geom_bar(width = .8) +
+  labs(title = "TV Rating Frequency", 
+       x = "TV Rating", 
+       y = "Frequency") + 
+  theme_bw() +
+  theme(legend.position = "none")
 ```
 
 ### Visualization 4: Content Volume
@@ -121,7 +157,12 @@ Create one other plot of your choice from the Disney+ Dataset to explore a quest
 Create a barplot to display how many shows are offered on each of the four streaming services. Choose appropriate colors, labels, themes, and/or and other types of formatting that you feel will enhance the meaning or visual appearance of the plot. 
 
 ```{r scvsbarplot}
-
+ggplot(streaming, aes(x = Service, fill = Service)) + 
+  geom_bar(width = .75) +
+  labs(title = "Number of shows offered on each Streaming Service", 
+       x = "Streaming Service",
+       y = "Count") +
+  theme_bw()
 ```
 
 ### Visualization 5: Choose a Plot!
@@ -131,7 +172,16 @@ Create a barplot to display how many shows are offered on each of the four strea
 Create one other plot of your choice from the Streaming Dataset to explore a question of interest. You are welcome to perform additional manipulations on the data, if needed. Add an appropriate title and axis labels, as well as any other necessary formatting.
 
 ```{r streamingchoice}
-
+streaming2 <- streamingedits %>%
+  mutate(IMDb = IMDb * 100)
+ggplot(streaming2, aes(x = IMDb, y = RottenTomatoes)) + 
+  geom_point(aes(color = IMDb), size = 2, alpha = .8) + 
+  theme(legend.position = "none") + 
+  labs(title = "IMb ratings vs. Rotten Tomatoes ratings", 
+       x = "IMDb Rating", 
+       y = "Rotten Tomatoes Rating") + 
+  theme_bw() + 
+  theme(legend.position = "none")
 ```
 
 <hr>
@@ -142,25 +192,27 @@ Create one other plot of your choice from the Streaming Dataset to explore a que
 
 **ANSWER**
 
-1)
+1) There was an increase in the release of shows in 2000 presumably as technology became more advanced. 
 
-2)
+2) More Movies are released than TV Shows.
 
-3)
+3) More TV-G shows were released than any other TV Rating.
 
-4)
+4) A little before 2020, there was an increase in the amount of TV shows released, in comparison to movies.
 
-5)
+5) Movies were released about 25 years before a TV Show.
 
 **Question 2:** What other data would you like to have, or which existing variables would you like to see transformed, if you were going to do further explorations or visualizations? Give at least two examples.
 
 **ANSWER**
 
-ERASE THIS TEXT AND ANSWER QUESTION HERE
+I would have preferred that the release country was just one country rather than two so I could have visualized a plot seeing which country had the most movies/shows released. I also would have been interested to view the difference in the ratings between a shows different seasons. 
 
 **Question 3:** Explain the rationale behind the choices you made with regard to plot type, formatting, and so on, when you created Visualizations 3 and 5. Walk me through your process. What motivated your decisions? 
 
 **ANSWER**
+
+When it came to formatting, I usually like the black and white theme. It looks cleaner and is easier to visualize without much distraction in the back of the plot. I also like to utilize the fill function so it easier to visualize the different aspects of the plots. I also changed the size in the scatter plots to really show each dot, without causing too much overlap of the other points, because there is a large cluster of points. 
 
 ***
 ```{r}

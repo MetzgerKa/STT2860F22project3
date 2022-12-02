@@ -16,24 +16,24 @@ This is a free-form reflection about your experience in the course. Pleased wait
 
 ANSWER:
 
-I am probably most proud of the projects. This is because of the cooperation of both of my team members. We worked very well together and produced very clean and accurate work. 
+
 
 **Question 2:** What topic(s) do you still find yourself struggling with? What materials, resources, or help do you feel you would need to help clear up this topic?
 
 ANSWER:
 
-I found myself struggling with violin and waffle plots probably the most. The visualization is not as clear as most other plots. Data Camp definitely helped clear up some of that confusion and further research can be done just from online or the textbook about these plots. 
+ 
 
 **Question 3:** If you could go back to the start of the semester and do things over, what (if anything) would you change about your approach to this course?
 
 ANSWER:
 
-I would come in with more of an open mind. I believed since I had already taken STT 3850, I pretty much knew everything I needed to. That was not the case. 
+
 
 **Question 4:** Consider the "Becoming a Data Scientist" interviews you watched for the first two projects. Do you consider *yourself* a data scientist? Please explain.
 
 ANSWER:
 
-I would consider myself an aspiring data scientist. I have many cool projects to now show my work in data science, but I have not done my own personal research into anything. I feel that a true data scientist pursues projects through their passions. 
+
 
 ***

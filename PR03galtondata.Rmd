@@ -233,26 +233,26 @@ ggplot(numchild, aes(x = num_children, y = n)) +
 
 **ANSWER**
 
-We think that our scatterplot is an improvement over Galtons original diagram. We found Galtons original diagram difficult to interpret and our Average Child Height range is broader this Galtons. There are not any modifications that we can think of to improve our scatterplot because we have all the information we need in an imformative and readable way. 
+We think that our scatterplot is an improvement over Galton's original diagram. We found Galton's original diagram difficult to interpret. The only improvement that comes to mind would be altering the axis labels and tick marks on the y axes of our graphs in order to make it more clear what the exact y values are. There are not any other modifications that we can think of to improve our scatterplot; we have all the information we need in an informative and easy to read way. 
 
 
 **Question 2:** Did Galton's "transmuting" of daughters' heights succeed in making their data more similar to sons? How can you tell, based on your data visualizations and summaries?
 
 **ANSWER**
 
-Yes, the daughters' heights were more similar to the sons after transmuting the data. We can tell by looking at the distributions of the daughters' heights with and without transmuting the data. Without the transmuting of the data, the daughters' heights range from 56 to 70.5 inches, with the transmuting of the data the daughters' heights range from 60.48	to 76.14 inches, and the sons range from 60 to79 inches. The increase in the daughters' heights makes them much closer to the sons!
+Yes, the daughters' heights were more similar to the sons' after transmuting the data. We can tell by looking at the distributions of the daughters' heights with and without transmuting the data. Without the transmuting of the data, the daughters' heights range from 56 to 70.5 inches, with the transmuting of the data the daughters' heights range from 60.48	to 76.14 inches, and the sons' heights range from 60 to 79 inches. The increase in the daughters' heights makes them much closer to the sons'!
 
 **Question 3:** Explain the rationale behind the choices you made when creating your plots, such as size, color, transparency, or other features that were not explicitly stated. What motivated your decisions? 
 
 **ANSWER**
 
-Color was often used to make the plot look more visually pleasing or to contrast two different subgroups. We also changed the bin width of histograms so the data was easier to read and allows a reader to be able to differentiate between the different groups. We also changed the size in the scatterplots to really show each dot, without causing too much overlap of the other data points, causing a cluster that you are unable to read. 
+Color was often used to make the plot look more visually pleasing or to contrast two different subgroups. We also changed the bin width of histograms so the data was easier to read and allows a reader to be able to differentiate between the different groups. We also changed the size of the points in the scatter plots to emphasize each point, without causing too much overlap of the other data points, causing a cluster that you are unable to read. Additionally we altered the transparency of the points in our scatter plot in order to make the density of data points at a specific spot easier to see, for example, without lowering the transparency, we wouldn't be able to see *how many* points there are where the child height is 70 inches and the average parent height is 68 inches, the darker the point, the more dense the data is at that point.
 
 **Question 4:** Considering best practices, how does using `coord_fixed()` enhance the authenticity of the information shown in the scatter plot, such as the relationship and spread of the data?
 
 **ANSWER**
 
-Fixing the coordinates allows us to see the data in a more accurate scale and be able to show to range of the average parent height and child height easily in the scatterplot, whereas a different scale can give you a misleading visualization. 
+Fixing the coordinates allows us to see the data in a more accurate scale, and it allows us to be able to show to range of the average parent height and child height easily in the scatter plot, whereas a different scale can give you a misleading visualization. Fixed coordinates that are true to scale is a more honest representation of data. There are some cases where axes need to be scaled in order to fit all of the data in one graph; that was not needed here. 
 
 ***
 ```{r}

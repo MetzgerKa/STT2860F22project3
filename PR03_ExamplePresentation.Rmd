@@ -39,7 +39,7 @@ I used a dataset from Kaggle, Data Analyst Job Postings [Pay, Skills, Benefits] 
 * `extensions`: common keywords for job postings
 * `posted_at`: time posted in reference to `data_time` column
 * `schedule_type`: full-time, part-time, or contract type job
-* `work_from_home`: True or NaN (blank)
+* `work_from_home`: True or NA (blank)
 
 ## 
 
